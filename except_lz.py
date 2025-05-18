@@ -1,39 +1,49 @@
 import pandas as pd
 import os
 
-class Dates:
+class Processing:
 
+    def __init__(self, csv):
+        try:   
+            self.csv = pd.read_csv(csv)
+            if os.path.isfile('var7.csv'): #Проверяем файл нв существование
+                print("Файл существует")
+            else:
+                raise Exception
+        except Exception:
+            print("Нет файла")      
+        try:
+            df = pd.read_csv('var7.csv') #Проверяем на наличие данных в файле
+            if len(df) != 0:
+                print("В датафрейме есть данные")        
+        except Exception:
+            print("Датафрейм пуст")
 
-    def __init__(self, filename):
-        self.filename = filename
+        try:
+            stolb_1 = self.csv.columns.to_list() #Получаем список названий столбцов
+            self.df_2 = pd.read_csv('var7.csv')
+            stolb_2 = self.df_2.columns.to_list()
+            if stolb_1 != stolb_2:
+                raise TypeError 
+        except TypeError:
+            print('В исходном файле не те колоки')
+        try:
+            self.file_types = str(self.csv.dtypes) #Получаем типы данных столбцов
+            self.file_types_2 = str(self.df_2.dtypes)
+            if self.file_types != self.file_types_2:
+                raise TypeError('Неверные типы данных')
+            else:
+                print('Названия столбцов и типы данных совпадают')
+        except TypeError:
+            print(f'Файлы не совпадают \n, ожидалось: {self.file_types_2}, Фактические:{self.file_types} ')
 
-    try:
-       if os.path.isfile('var7.csv'):
-           print("Файл существует")
-       else:
-           raise Exception
-    except Exception:
-        print("No file")      
-
-    try:
-        df = pd.read_csv('var7.csv')
-        if len(df) != 0:
-            print("В датафрейме есть данные")        
-    except Exception:
-        print("Датафрейм пуст")
-
-
-
-    # def sort_of_dates(self, file_name):
-    #     df = pd.read_csv(file_name)
-    #     df['Дата оплаты'] = pd.to_datetime(df['Дата оплаты'], format='%d-%m-%Y')
-    #     df_after = df.loc[df['Дата оплаты'] >= '2014-01-01']
-    #     df_after.to_csv('after_2014.csv', index=False) 
-    #     df['Дата оплаты'] = pd.to_datetime(df['Дата оплаты'], format='%d-%m-%Y')
-    #     df_before = df.loc[df['Дата оплаты'] < '01-01-2014']
-    #     df_before.to_csv('before_2014.csv', index=False) 
-    # #Делаем из строки дату и сортируем до и после 2014 года
-    
     def __del__(self):
-        print('del done')
-    #Del Done
+        print('')
+    # Del Done
+
+def main():
+    csv = 'var7.csv'            
+    df = Processing(csv)
+
+if __name__ == "__main__":
+    main()
