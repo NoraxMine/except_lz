@@ -9,16 +9,13 @@ class Processing:
             if os.path.isfile('var7.csv'): #Проверяем файл нв существование
                 print("Файл существует")
             else:
-                raise Exception
-        except Exception:
-            print("Нет файла")      
-        try:
-            df = pd.read_csv('var7.csv') #Проверяем на наличие данных в файле
-            if len(df) != 0:
-                print("В датафрейме есть данные")        
-        except Exception:
-            print("Датафрейм пуст")
-
+                raise SystemExit()
+        except FileNotFoundError:
+            print("Нет файла") 
+            raise SystemExit()     
+        except pd.errors.EmptyDataError:
+            print("Файл пуст")
+            raise SystemExit()
         try:
             stolb_1 = self.csv.columns.to_list() #Получаем список названий столбцов
             self.df_2 = pd.read_csv('var7.csv')
@@ -42,7 +39,7 @@ class Processing:
     # Del Done
 
 def main():
-    csv = 'var7.csv'            
+    csv = 'var2.csv'            
     df = Processing(csv)
 
 if __name__ == "__main__":
